@@ -1,0 +1,99 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "River Gambia", "type": "River" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-16.58, 13.47],
+          [-16.05, 13.47],
+          [-15.6, 13.47],
+          [-15.1, 13.47],
+          [-14.6, 13.47],
+          [-14.2, 13.47],
+          [-13.8, 13.47],
+          [-13.4, 13.47]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Sapu", "type": "Farming Area" },
+      "geometry": { "type": "Point", "coordinates": [-14.8833, 13.55] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Brikama", "type": "Farming Area" },
+      "geometry": { "type": "Point", "coordinates": [-16.65, 13.27] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Kuntaur", "type": "Farming Area" },
+      "geometry": { "type": "Point", "coordinates": [-14.883, 13.65] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Janjanbureh", "type": "Farming Area" },
+      "geometry": { "type": "Point", "coordinates": [-14.666, 13.55] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Basse", "type": "Farming Area" },
+      "geometry": { "type": "Point", "coordinates": [-14.22, 13.3] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Soma", "type": "Farming Area" },
+      "geometry": { "type": "Point", "coordinates": [-15.53, 13.43] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Kerewan", "type": "Farming Area" },
+      "geometry": { "type": "Point", "coordinates": [-16.09, 13.49] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Central River Region Irrigation Zone", "type": "Irrigation Area" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-14.95, 13.52],
+          [-14.8, 13.52],
+          [-14.8, 13.60],
+          [-14.95, 13.60],
+          [-14.95, 13.52]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "North Bank Floodplain", "type": "Floodplain" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-15.9, 13.50],
+          [-15.7, 13.50],
+          [-15.7, 13.58],
+          [-15.9, 13.58],
+          [-15.9, 13.50]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Lower River Rice Fields", "type": "Rice Field" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-15.4, 13.40],
+          [-15.2, 13.40],
+          [-15.2, 13.48],
+          [-15.4, 13.48],
+          [-15.4, 13.40]
+        ]]
+      }
+    }
+  ]
+}

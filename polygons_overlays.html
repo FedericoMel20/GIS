@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Gambia Smart Farming Map</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet/dist/leaflet.css"
+    />
+    <style>
+      html, body, #map {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      // Initialize map centered on The Gambia
+      var map = L.map('map').setView([13.45, -15.4], 8);
+
+      // Base maps
+      var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+
+      var satellite = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0','mt1','mt2','mt3'],
+        attribution: '© Google Satellite'
+      });
+
+      var baseMaps = {
+        "OpenStreetMap": osm,
+        "Satellite": satellite
+      };
+
+      // Load GeoJSON data
+      fetch('map.geojson')
+        .then(response => response.json())
+        .then(data => {
+          // Split features into categories
+          var farmingMarkers = L.geoJSON(data, {
+            filter: f => f.properties.type === "Farming Area",
+            pointToLayer: (feature, latlng) => L.marker(latlng),
+            onEachFeature: (feature, layer) =>
+              layer.bindPopup(`<b>${feature.properties.name}</b><br>${feature.properties.type}`)
+          });
+
+          var riverLayer = L.geoJSON(data, {
+            filter: f => f.properties.type === "River",
+            style: { color: "blue", weight: 3 },
+            onEachFeature: (feature, layer) =>
+              layer.bindPopup(`<b>${feature.properties.name}</b>`)
+          });
+
+          var polygonLayer = L.geoJSON(data, {
+            filter: f =>
+              ["Irrigation Area", "Floodplain", "Rice Field"].includes(f.properties.type),
+            style: f => {
+              switch (f.properties.type) {
+                case "Irrigation Area": return { color: "green", fillOpacity: 0.4 };
+                case "Floodplain": return { color: "orange", fillOpacity: 0.4 };
+                case "Rice Field": return { color: "yellow", fillOpacity: 0.4 };
+              }
+            },
+            onEachFeature: (feature, layer) =>
+              layer.bindPopup(`<b>${feature.properties.name}</b><br>${feature.properties.type}`)
+          });
+
+          // Add overlays
+          var overlays = {
+            "Main Farming Locations": farmingMarkers,
+            "Important Agricultural Zones": polygonLayer,
+            "River Gambia": riverLayer
+          };
+
+          L.control.layers(baseMaps, overlays).addTo(map);
+
+          // Show all by default
+          farmingMarkers.addTo(map);
+          polygonLayer.addTo(map);
+          riverLayer.addTo(map);
+        })
+        .catch(err => console.error("Error loading GeoJSON:", err));
+    </script>
+  </body>
+</html>

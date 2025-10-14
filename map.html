@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Agricultural Advisory System Map - The Gambia</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map1, #map2 {
+      height: 400px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+<h2>Smart Agricultural Advisory System Map</h2>
+<p>Displaying key agricultural data points in The Gambia.</p>
+
+<h3>Default Map (Web Mercator - EPSG:3857)</h3>
+<div id="map1"></div>
+
+<h3>EPSG:4326 Map</h3>
+<div id="map2"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+// Two GeoJSON Points
+const pointsData = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Brikama Soil Sensor Station",
+        "description": "A smart soil monitoring point providing real-time soil moisture and fertility data to nearby farmers."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-16.656, 13.279] // [longitude, latitude]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sapu Rice Research Field",
+        "description": "An agricultural research site focused on improving rice production and irrigation management."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-14.95, 13.55] // [longitude, latitude]
+      }
+    }
+  ]
+};
+
+// Default Web Mercator Map (EPSG:3857)
+const map1 = L.map('map1').setView([13.35, -15.8], 8);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map1);
+L.geoJSON(pointsData, {
+  onEachFeature: (feature, layer) => {
+    layer.bindPopup(`<b>${feature.properties.name}</b><br>${feature.properties.description}`);
+  }
+}).addTo(map1);
+
+// EPSG:4326 Map
+const map2 = L.map('map2', {
+  crs: L.CRS.EPSG4326,
+  center: [13.35, -15.8],
+  zoom: 7
+});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map2);
+L.geoJSON(pointsData, {
+  onEachFeature: (feature, layer) => {
+    layer.bindPopup(`<b>${feature.properties.name}</b><br>${feature.properties.description}`);
+  }
+}).addTo(map2);
+</script>
+</body>
+</html>
