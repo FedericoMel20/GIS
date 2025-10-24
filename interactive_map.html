@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gambia Agricultural & Veterinary Map</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    header {
+      background-color: #2e7d32;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      font-size: 1.4em;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+
+    .popup-content {
+      width: 200px;
+      text-align: center;
+    }
+
+    .popup-content h3 {
+      font-size: 1.1em;
+      margin: 5px 0;
+      font-weight: bold;
+      color: #2e7d32;
+    }
+
+    .popup-content img {
+      width: 100%;
+      height: 100px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-bottom: 5px;
+    }
+
+    .popup-content p {
+      margin: 3px 0;
+      font-size: 0.9em;
+      line-height: 1.3;
+      word-wrap: break-word;
+    }
+
+    .emoji-icon {
+      font-size: 26px;
+    }
+
+    .leaflet-control-layers label {
+      font-size: 14px;
+      margin-left: 5px;
+    }
+
+    .leaflet-control-layers-base label::before {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>🌾 Gambia Agricultural & Veterinary Map</header>
+  <div id="map"></div>
+
+  <script>
+    // --- Initialize Map ---
+    const map = L.map("map").setView([13.4549, -16.5790], 8.5);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "© OpenStreetMap contributors",
+    }).addTo(map);
+
+    // --- Icons ---
+    const riceIcon = L.divIcon({
+      html: "🌾",
+      className: "emoji-icon",
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+    });
+
+    const vetIcon = L.icon({
+      iconUrl: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+      iconSize: [35, 35],
+    });
+
+    const faoIcon = L.icon({
+      iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+      iconSize: [35, 35],
+    });
+
+    // --- Marker Groups ---
+    const farmLayer = L.layerGroup();
+    const vetLayer = L.layerGroup();
+    const soilLayer = L.layerGroup();
+
+    // --- Places ---
+    const places = [
+      {
+        name: "Brikama Organic Farm",
+        coords: [13.271, -16.6494],
+        icon: riceIcon,
+        img: "assets/images/brikama_farm.jpeg",
+        desc: "Focused on organic vegetable and fruit farming.",
+        contact: "+220 6552098",
+        location: "Brikama",
+        layer: farmLayer,
+      },
+      {
+        name: "Farafenni Agro Farm",
+        coords: [13.5667, -15.6],
+        icon: riceIcon,
+        img: "assets/images/farafenni_farm.jpeg",
+        desc: "Pioneer in sustainable crop rotation techniques.",
+        contact: "+220 7803311",
+        location: "Farafenni",
+        layer: farmLayer,
+      },
+      {
+        name: "Sapu Rice Field",
+        coords: [13.5339, -14.9337],
+        icon: riceIcon,
+        img: "assets/images/sapu_rice_field.jpeg",
+        desc: "One of The Gambia’s largest rice production areas.",
+        contact: "+220 7751234",
+        location: "Sapu, Central River Region",
+        layer: farmLayer,
+      },
+      {
+        name: "AHS Veterinary Clinic",
+        coords: [13.4311, -16.7353],
+        icon: vetIcon,
+        img: "assets/images/ahs_vet.jpeg",
+        desc: "Providing professional animal health and vaccination services.",
+        contact: "+220 7642323",
+        location: "Bijilo",
+        layer: vetLayer,
+      },
+      {
+        name: "GambVet Veterinary Clinic",
+        coords: [13.439, -16.6789],
+        icon: vetIcon,
+        img: "assets/images/gambvet.jpeg",
+        desc: "Offering modern treatment and diagnostics for pets and livestock.",
+        contact: "+220 2592060",
+        location: "Serrekunda",
+        layer: vetLayer,
+      },
+      {
+        name: "City Vets and Pharmacy",
+        coords: [13.4525, -16.7075],
+        icon: vetIcon,
+        img: "assets/images/cityvets.jpeg",
+        desc: "Comprehensive vet services with on-site pharmacy.",
+        contact: "+220 736 0858",
+        location: "Kololi",
+        layer: vetLayer,
+      },
+      {
+        name: "FAO Gambia Office",
+        coords: [13.4495, -16.678],
+        icon: faoIcon,
+        img: "assets/images/fao_gambia.jpg",
+        desc: "Promoting sustainable agriculture and food security initiatives.",
+        contact: "+220 446 3216",
+        location: "Serrekunda",
+        layer: farmLayer,
+      },
+    ];
+
+    // --- Add Markers ---
+    places.forEach((p) => {
+      const marker = L.marker(p.coords, { icon: p.icon }).addTo(p.layer);
+      const popupContent = `
+        <div class="popup-content">
+          <h3>${p.name}</h3>
+          <img src="${p.img}" alt="${p.name}">
+          <p><strong>📍 Location:</strong> ${p.location}</p>
+          <p><strong>📞 Contact:</strong> ${p.contact}</p>
+          <p>${p.desc}</p>
+        </div>
+      `;
+      marker.bindPopup(popupContent);
+    });
+
+    // --- Soil Polygons ---
+    const clayArea = L.polygon(
+      [
+        [13.45, -16.75],
+        [13.47, -16.68],
+        [13.43, -16.65],
+        [13.4, -16.7],
+      ],
+      {
+        color: "#b85c38",
+        fillColor: "#b85c38",
+        fillOpacity: 0.35,
+      }
+    ).bindPopup("<b>Clay Soil Region</b><br>High moisture retention, ideal for rice.");
+
+    const claySapu = L.polygon(
+      [
+        [13.53, -14.95],
+        [13.54, -14.92],
+        [13.52, -14.91],
+        [13.51, -14.94],
+      ],
+      {
+        color: "#a0522d",
+        fillColor: "#a0522d",
+        fillOpacity: 0.35,
+      }
+    ).bindPopup("<b>Clayey Soil Region (Sapu)</b><br>Supports intensive rice cultivation.");
+
+    const loamArea = L.polygon(
+      [
+        [13.29, -16.72],
+        [13.34, -16.63],
+        [13.27, -16.57],
+        [13.23, -16.65],
+      ],
+      {
+        color: "#4CAF50",
+        fillColor: "#4CAF50",
+        fillOpacity: 0.35,
+      }
+    ).bindPopup("<b>Loam Soil Region</b><br>Rich and fertile soil suitable for mixed crops.");
+
+    const sandyArea = L.polygon(
+      [
+        [13.55, -16.25],
+        [13.6, -16.15],
+        [13.52, -16.1],
+        [13.48, -16.2],
+      ],
+      {
+        color: "#F4D03F",
+        fillColor: "#F4D03F",
+        fillOpacity: 0.35,
+      }
+    ).bindPopup("<b>Sandy Soil Region</b><br>Well-drained soil, best for groundnuts and cassava.");
+
+    soilLayer.addLayer(clayArea);
+    soilLayer.addLayer(claySapu);
+    soilLayer.addLayer(loamArea);
+    soilLayer.addLayer(sandyArea);
+
+    // --- Layer Control ---
+    const allLayers = L.layerGroup([farmLayer, vetLayer, soilLayer]);
+    const overlays = {
+      "🌾 Farms": farmLayer,
+      "🐕 Veterinary Centers": vetLayer,
+      "🟤 Soil Regions": soilLayer,
+    };
+
+    allLayers.addTo(map);
+    L.control.layers(null, overlays, { collapsed: false }).addTo(map);
+  </script>
+</body>
+</html>

@@ -1,235 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Smart Agricultural Advisory — The Gambia (Prototype)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <!-- Simple UI fonts/icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#f5fbf6; --card:#ffffff; --accent:#1e5631; --muted:#6b7280;
-    }
-    html,body{height:100%;margin:0;font-family:Poppins,system-ui,Segoe UI,Arial;color:#0f172a;background:var(--bg)}
-    .app{display:grid;grid-template-columns:360px 1fr;gap:18px;height:100vh;padding:18px}
-    .panel{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.06);overflow:auto}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#7fc786);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
-    h1{font-size:18px;margin:0}
-    p.muted{color:var(--muted);margin:6px 0 14px;font-size:13px}
-    #map{width:100%;height:calc(100vh - 36px);border-radius:12px}
-    .stat-row{display:flex;gap:8px;margin-top:12px}
-    .stat{flex:1;background:#f8fff7;padding:10px;border-radius:8px;text-align:center}
-    .stat b{display:block;font-size:16px}
-    .list{margin-top:12px}
-    .list-item{padding:8px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;background:#fbfffb}
-    .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
-    .toggle{display:flex;gap:8px;align-items:center}
-    .small{font-size:13px;color:var(--muted)}
-    /* popup content small style */
-    .popupline{font-size:13px;margin:4px 0}
-    /* responsive */
-    @media(max-width:900px){.app{grid-template-columns:1fr;grid-template-rows:auto 1fr;padding:10px}.panel{height:auto}.brand h1{font-size:16px}}
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Farming Dashboard | The Gambia</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
-  <div class="app">
-    <aside class="panel">
-      <div class="brand">
-        <div class="logo">SF</div>
-        <div>
-          <h1>Smart Agricultural Advisory</h1>
-          <p class="small">Prototype — The Gambia</p>
-        </div>
-      </div>
-      <p class="muted">Interactive map + soil & weather snapshots for main farming areas. Click any marker to load NASA POWER & (optional) OpenWeather data.</p>
-
-      <div class="stat-row">
-        <div class="stat"><span class="small">Avg Temp (Brikama)</span><b id="avgTemp">-- °C</b></div>
-        <div class="stat"><span class="small">Avg Rain (Brikama)</span><b id="avgRain">-- mm</b></div>
-      </div>
-
-      <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
-        <input id="owmKey" placeholder="OpenWeather API Key (optional)" style="flex:1;padding:8px;border-radius:8px;border:1px solid #e6eef0" />
-        <button id="saveKey" class="btn">Save</button>
-      </div>
-
-      <div class="list">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-          <strong>Main Sites</strong>
-          <div class="small">Click to focus</div>
-        </div>
-
-        <div class="list-item"><span>Brikama Soil Sensor</span><button class="btn" onclick="flyToSite('Brikama')">View</button></div>
-        <div class="list-item"><span>Sapu Rice Research</span><button class="btn" onclick="flyToSite('Sapu')">View</button></div>
-      </div>
-
-      <div style="margin-top:14px">
-        <strong>Charts (selected site)</strong>
-        <canvas id="chartTemp" height="160" style="width:100%"></canvas>
-      </div>
-
-      <p class="small" style="margin-top:12px">Notes: NASA POWER requires <code>community=AG</code> in queries (handled by the app). OpenWeather is optional — paste your key to include current weather.</p>
-    </aside>
-
-    <main>
-      <div class="panel" style="padding:10px;height:100%">
-        <div id="map"></div>
-      </div>
-    </main>
+  <!-- Sidebar -->
+  <div id="menu-toggle" title="Open sidebar">&#9776;</div>
+  <div class="sidebar">
+    <h2>Smart Farm</h2>
+    <ul>
+      <li class="active">🏠 Home</li>
+      <li onclick="location.href='weather_soil_data.html'">Weather & Soil Data</li>
+      <li>Crop Recommendations</li>
+      <li>Data & Insights</li>
+      <li>Map View</li>
+      <li>About</li>
+    </ul>
   </div>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // --- Basic map setup (Leaflet) ---
-    const map = L.map('map', {center:[13.4,-15.6],zoom:8});
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="overlay"></div>
+    <div class="content">
+      <h1>From Soil to Sky, Data Lights the Way</h1>
+      <p>
+        Explore real data and insights about weather, soil, and environment across The Gambia.
+        Know more about the farming conditions in your area to guarantee success and productivity
+        even before you start growing.
+      </p>
+      <button id="exploreBtn">Explore Now</button>
+    </div>
+  </div>
 
-    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19, attribution:'© OpenStreetMap'}).addTo(map);
-    const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'ESRI'});
-
-    const baseMaps = {"OpenStreetMap":osm, "Esri Satellite":esriSat};
-    L.control.layers(baseMaps,null,{position:'topright'}).addTo(map);
-
-    // GeoJSON points for main sites
-    const sites = {
-      "type":"FeatureCollection","features":[
-        {"type":"Feature","properties":{"id":"Brikama","name":"Brikama Soil Sensor","type":"sensor"},"geometry":{"type":"Point","coordinates":[-16.656,13.279]}},
-        {"type":"Feature","properties":{"id":"Sapu","name":"Sapu Rice Research","type":"research"},"geometry":{"type":"Point","coordinates":[-14.916,13.55]}}
-      ]
-    };
-
-    // icons
-    const icons = {
-      sensor: L.divIcon({html:'🌿',className:'icon-div',iconSize:[28,28],iconAnchor:[14,14]}),
-      research: L.divIcon({html:'🧪',className:'icon-div',iconSize:[28,28],iconAnchor:[14,14]})
-    };
-
-    // add markers
-    const markers = {};
-    const geoLayer = L.geoJSON(sites,{
-      pointToLayer:(feature,latlng)=>{
-        const t = feature.properties.type||'sensor';
-        const m = L.marker([latlng.lat,latlng.lng],{icon:icons[t]});
-        markers[feature.properties.id] = m;
-        return m;
-      },
-      onEachFeature:(feature,layer)=>{
-        layer.bindPopup('<b>'+feature.properties.name+'</b><br><div class="popupline">Loading data...</div>');
-        layer.on('click',async ()=>{ await loadSiteData(feature.properties.id, feature) });
-      }
-    }).addTo(map);
-
-    map.fitBounds(geoLayer.getBounds(),{padding:[40,40]});
-
-    // --- NASA POWER fetch function ---
-    async function fetchNASA(lat, lon, start, end){
-      const params = 'TS,PRECTOTCORR,RH2M,T2M,WS2M';
-      const url = `https://power.larc.nasa.gov/api/temporal/daily/point?parameters=${params}&start=${start}&end=${end}&latitude=${lat}&longitude=${lon}&community=AG&format=JSON`;
-      const res = await fetch(url);
-      if(!res.ok) throw new Error('NASA POWER request failed');
-      const j = await res.json();
-      return j;
-    }
-
-    // optional OpenWeather fetch (requires key)
-    async function fetchOWM(lat, lon, key){
-      if(!key) return null;
-      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=metric`;
-      const res = await fetch(url);
-      if(!res.ok) return null;
-      return await res.json();
-    }
-
-    // helper to format date range for last N days
-    function rangeDates(days){
-      const today = new Date();
-      const end = new Date(today);
-      const start = new Date(today);
-      start.setDate(start.getDate() - (days-1));
-      const fmt = d=>d.toISOString().slice(0,10).replace(/-/g,'');
-      return {start:fmt(start), end:fmt(end)};
-    }
-
-    // storage for chart
-    let tempChart = null;
-    function drawChart(labels, data){
-      const ctx = document.getElementById('chartTemp').getContext('2d');
-      if(tempChart) tempChart.destroy();
-      tempChart = new Chart(ctx,{
-        type:'line', data:{labels, datasets:[{label:'T2M (°C)',data,fill:true, tension:0.3}]}, options:{plugins:{legend:{display:false}}}
-      });
-    }
-
-    // load data for site and update popup & chart
-    async function loadSiteData(id, feature){
-      const coords = feature.geometry.coordinates; const lon=coords[0], lat=coords[1];
-      const {start,end} = rangeDates(10); // last 10 days
-      const popup = markers[id].getPopup();
-      popup.setContent('<b>'+feature.properties.name+'</b><br><div class="popupline">Fetching NASA POWER data...</div>');
-      markers[id].openPopup();
-
-      try{
-        const nasa = await fetchNASA(lat, lon, start, end);
-        // parse basic stats
-        const params = nasa.properties.parameter;
-        const t2 = params.T2M; const pr = params.PRECTOTCORR; const rh = params.RH2M; const ts = params.TS;
-        const labels = Object.keys(t2).filter(k=>t2[k]!==-999.0);
-        const tvals = labels.map(k=>t2[k]);
-        const avgTemp = (tvals.reduce((a,b)=>a+b,0)/tvals.length).toFixed(2);
-        const rainVals = labels.map(k=>pr[k]);
-        const avgRain = (rainVals.reduce((a,b)=>a+b,0)/rainVals.length).toFixed(2);
-
-        document.getElementById('avgTemp').innerText = avgTemp + ' °C';
-        document.getElementById('avgRain').innerText = avgRain + ' mm';
-
-        // update popup content
-        let html = `<b>${feature.properties.name}</b>`;
-        html += `<div class="popupline"><b>Avg Temp (last ${labels.length} days):</b> ${avgTemp} °C</div>`;
-        html += `<div class="popupline"><b>Avg Rain:</b> ${avgRain} mm/day</div>`;
-        // attempt OpenWeather if key provided
-        const key = localStorage.getItem('owmKey') || '';
-        let owmText = '';
-        if(key){
-          const owm = await fetchOWM(lat, lon, key);
-          if(owm){ owmText = `<div class="popupline"><b>Current:</b> ${owm.main.temp} °C, ${owm.weather[0].description}</div>` };
-        }
-        html += owmText;
-        popup.setContent(html);
-
-        // draw chart
-        drawChart(labels, tvals);
-
-      }catch(err){
-        popup.setContent(`<b>${feature.properties.name}</b><br><div class="popupline">Error fetching data: ${err.message}</div>`);
-      }
-    }
-
-    // fly to site helper
-    function flyToSite(name){
-      const site = sites.features.find(s=>s.properties.id===name);
-      if(!site) return;
-      const [lon,lat] = site.geometry.coordinates;
-      map.flyTo([lat,lon],12,{duration:1.2});
-      // open popup and load data
-      markers[name].openPopup();
-      loadSiteData(name, site);
-    }
-
-    // save OpenWeather key
-    document.getElementById('saveKey').addEventListener('click',()=>{
-      const k = document.getElementById('owmKey').value.trim();
-      if(k) localStorage.setItem('owmKey',k);
-      alert('Saved API key (local browser storage).');
-    });
-
-    // preload first site's data
-    (async ()=>{ await loadSiteData('Brikama', sites.features[0]) })();
-  </script>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>
