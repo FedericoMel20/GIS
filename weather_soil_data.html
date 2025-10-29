@@ -4,167 +4,221 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Weather & Soil Data | SmartFarm</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
   <style>
-    body {
-      font-family: "Exo 2", sans-serif;
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      display: flex;
-      background: linear-gradient(135deg, #c3f0ca, #ffffff);
-      animation: fadeIn 0.8s ease-in-out;
-      overflow: hidden;
-    }
+  @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap");
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(1.02); }
-      to { opacity: 1; transform: scale(1); }
-    }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Exo 2", sans-serif;
+  }
 
-    /* Main content styling */
-    .main-content {
-      flex: 1;
-      padding: 50px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 10% 10%, rgba(255,255,255,0.22), rgba(255,255,255,0.03) 25%, transparent 60%),
+      linear-gradient(180deg, #effef4 0%, #e5fbe5 35%, #d9f5d8 70%, #ffffff 100%);
+    background-color: #eafbf0;
+  }
 
-    header {
-      background: rgba(0, 128, 0, 0.85);
-      color: white;
-      padding: 20px 0;
-      width: 100%;
-      text-align: center;
-      font-size: 1.6rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      margin-bottom: 30px;
-    }
+  /* Sidebar */
+  #menu-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 28px;
+    color: #90ee90;
+    background-color: #222;
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 2000;
+  }
 
-    .search-box {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 500px;
-      text-align: center;
-      margin-bottom: 40px;
-    }
+  #menu-toggle:hover {
+    background-color: #2d2d2d;
+  }
 
-    .search-box input {
-      width: 70%;
-      padding: 12px;
-      border: 2px solid #8fd18f;
-      border-radius: 25px;
-      outline: none;
-      transition: 0.3s;
-      font-size: 1rem;
-    }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 230px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1500;
+  }
 
-    .search-box input:focus {
-      border-color: #4caf50;
-    }
+  .sidebar.active { transform: translateX(0); }
 
-    .search-box button {
-      margin-top: 15px;
-      padding: 12px 25px;
-      background: #4caf50;
-      color: white;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: 0.3s;
-      font-weight: 600;
-    }
+  .sidebar h2 {
+    font-family: "Orbitron", sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #9be69b;
+    width: 100%;
+    letter-spacing: 1px;
+  }
 
-    .search-box button:hover {
-      background: #45a049;
-      transform: scale(1.05);
-    }
+  .sidebar ul { list-style: none; width: 100%; }
+  .sidebar li {
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+  }
+  .sidebar li:hover,
+  .sidebar .active {
+    background-color: #9be69b;
+    color: black;
+  }
 
-    .info-section {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 25px;
-      width: 100%;
-      max-width: 1000px;
-    }
+  /* Content */
+  .content-section {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 6vw;
+    gap: 30px;
+  }
 
-    .info-card {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
-      padding: 25px;
-      width: 300px;
-      text-align: center;
-      transition: 0.3s;
-    }
+  .text-section { width: 56%; padding-right: 30px; }
 
-    .info-card:hover {
-      transform: translateY(-5px);
-    }
+  .text-section h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    color: #0b5d34;
+    margin-bottom: 18px;
+    line-height: 1.05;
+  }
 
-    .info-card h3 {
-      color: #2e7d32;
-      margin-bottom: 10px;
-    }
+  .cta-title {
+    font-family: "Orbitron", sans-serif;
+    font-size: 2rem;
+    color: #0b5d34;
+    margin: 20px 0 12px;
+  }
 
-    .info-card p {
-      font-size: 1rem;
-      color: #333;
-    }
+  .text-section .lead {
+    font-size: 1.02rem;
+    color: #2d3b2f;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .text-section button {
+    padding: 12px 28px;
+    background-color: #0b5d34;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+
+  .text-section button:hover { background-color: #0d7a45; transform: translateY(-2px); }
+
+  .image-section {
+    width: 44%;
+    height: 520px;
+    background: url("assets/images/WeatherPage.jpg") no-repeat center center/cover;
+    border-radius: 0 120px 120px 0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Map Section */
+  #map-section { width: 100%; height: 0; overflow: hidden; transition: height 0.8s ease; }
+  #map-section.active { height: 100vh; }
+  #map-title {
+    text-align: center;
+    padding: 15px;
+    background: #2e7d32;
+    color: white;
+    font-family: "Orbitron", sans-serif;
+    font-size: 1.3rem;
+  }
+
+  #map { height: calc(100vh - 55px); width: 100%; }
+
+  .tooltip-custom {
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    width: 210px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #222;
+  }
+
+  .tooltip-custom .tooltip-title {
+    font-weight: 700;
+    color: #2e7d32;
+    margin-bottom: 6px;
+    display: block;
+    font-size: 1rem;
+  }
+
+  .tooltip-custom img {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
   </style>
 </head>
 <body>
-  <!-- Sidebar toggle -->
-  <div id="menu-toggle" title="Open sidebar">&#9776;</div>
 
   <!-- Sidebar -->
+  <div id="menu-toggle">&#9776;</div>
   <div class="sidebar">
-    <h2>SmartFarm</h2>
+    <h2 style="text-align:center;">Smart Farm</h2>
     <ul>
       <li onclick="window.location.href='Smart_Farming_index.html'">🏠 Home</li>
-      <li class="active">🌦 Weather & Soil Data</li>
-      <li onclick="window.location.href='crop_recommendations.html'">🌾 Crop Recommendations</li>
-      <li onclick="window.location.href='data_insights.html'">📊 Data & Insights</li>
-      <li onclick="window.location.href='map_view.html'">📍 Map View</li>
-      <li onclick="window.location.href='about.html'">📘 About</li>
+      <li class="active">Weather & Soil Data</li>
+      <li>Crop Recommendations</li>
+      <li>Data & Insights</li>
+      <li>Map View</li>
+      <li>About</li>
     </ul>
   </div>
 
-  <!-- Main content -->
-  <div class="main-content">
-    <header>Weather & Soil Insights 🌤️</header>
-
-    <div class="search-box">
-      <h2>Check your farming area's conditions</h2>
-      <input type="text" id="locationInput" placeholder="Enter your city or town..." />
-      <br />
-      <button id="checkDataBtn">Check Data</button>
-      <button id="viewMapBtn" onclick="window.location.href='map_view.html'">View on Map</button>
+  <!-- Content -->
+  <div class="content-section">
+    <div class="text-section">
+      <h1>Weather & Soil Data</h1>
+      <div class="cta-title">Ready to See Your Farm Data?</div>
+      <p class="lead">Our interactive map brings weather and soil insights together in one powerful dashboard. Access field-by-field analysis, receive actionable alerts, and make smarter decisions faster.</p>
+      <button id="viewMapBtn">View Map</button>
     </div>
-
-    <div class="info-section" id="dataDisplay">
-      <!-- Weather and soil data cards will be inserted here -->
-    </div>
+    <div class="image-section"></div>
   </div>
 
-  <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.querySelector('.sidebar');
+  <!-- Map -->
+  <div id="map-section">
+    <div id="map-title">🌍 Map of The Gambia's Agricultural Layout</div>
+    <div id="map"></div>
+  </div>
 
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
-  </script>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>

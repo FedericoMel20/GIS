@@ -1,97 +1,268 @@
 {
   "type": "FeatureCollection",
   "features": [
+
+    
     {
       "type": "Feature",
-      "properties": { "name": "River Gambia", "type": "River" },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [-16.58, 13.47],
-          [-16.05, 13.47],
-          [-15.6, 13.47],
-          [-15.1, 13.47],
-          [-14.6, 13.47],
-          [-14.2, 13.47],
-          [-13.8, 13.47],
-          [-13.4, 13.47]
-        ]
-      }
+      "properties": {
+        "name": "Brikama Organic Farm",
+        "type": "Farm",
+        "description": "Focused on organic vegetable and fruit farming with sustainable irrigation systems.",
+        "contact": "+220 6552098",
+        "location": "Brikama",
+        "image": "assets/images/brikama_farm.jpeg"
+      },
+      "geometry": { "type": "Point", "coordinates": [-16.6494, 13.271] }
     },
     {
       "type": "Feature",
-      "properties": { "name": "Sapu", "type": "Farming Area" },
-      "geometry": { "type": "Point", "coordinates": [-14.8833, 13.55] }
+      "properties": {
+        "name": "Farafenni Agro Farm",
+        "type": "Farm",
+        "description": "Pioneer in sustainable crop rotation techniques and fertilizer-free farming.",
+        "contact": "+220 7803311",
+        "location": "Farafenni",
+        "image": "assets/images/farafenni_farm.jpeg"
+      },
+      "geometry": { "type": "Point", "coordinates": [-15.6, 13.5667] }
     },
     {
       "type": "Feature",
-      "properties": { "name": "Brikama", "type": "Farming Area" },
-      "geometry": { "type": "Point", "coordinates": [-16.65, 13.27] }
+      "properties": {
+        "name": "Sapu Rice Field",
+        "type": "Rice Field",
+        "description": "One of The Gambia’s largest rice production zones, supported by clayey soil and natural irrigation.",
+        "contact": "+220 7751234",
+        "location": "Sapu, Central River Region",
+        "image": "assets/images/sapu_rice_field.jpeg"
+      },
+      "geometry": { "type": "Point", "coordinates": [-14.9337, 13.5339] }
     },
     {
       "type": "Feature",
-      "properties": { "name": "Kuntaur", "type": "Farming Area" },
-      "geometry": { "type": "Point", "coordinates": [-14.883, 13.65] }
+      "properties": {
+        "name": "Kuntaur Vegetable Garden",
+        "type": "Farm",
+        "description": "Smallholder vegetable garden serving the Central River Region with green produce.",
+        "contact": "+220 9983412",
+        "location": "Kuntaur",
+        "image": "assets/images/kuntaur_garden.jpg"
+      },
+      "geometry": { "type": "Point", "coordinates": [-14.9, 13.55] }
     },
     {
       "type": "Feature",
-      "properties": { "name": "Janjanbureh", "type": "Farming Area" },
-      "geometry": { "type": "Point", "coordinates": [-14.666, 13.55] }
+      "properties": {
+        "name": "Yundum Mango Orchard",
+        "type": "Farm",
+        "description": "Specializes in mango and citrus fruit production using drip irrigation.",
+        "contact": "+220 9945123",
+        "location": "Yundum",
+        "image": "assets/images/yundum_mango_orchard.jpg"
+      },
+      "geometry": { "type": "Point", "coordinates": [-16.65, 13.35] }
     },
     {
       "type": "Feature",
-      "properties": { "name": "Basse", "type": "Farming Area" },
-      "geometry": { "type": "Point", "coordinates": [-14.22, 13.3] }
+      "properties": {
+        "name": "Basse Groundnut Fields",
+        "type": "Crop Field",
+        "description": "Extensive groundnut and maize plantations managed by local cooperatives.",
+        "contact": "+220 7611299",
+        "location": "Basse",
+        "image": "assets/images/farm_placeholder.jpg"
+      },
+      "geometry": { "type": "Point", "coordinates": [-14.2, 13.3] }
     },
     {
       "type": "Feature",
-      "properties": { "name": "Soma", "type": "Farming Area" },
+      "properties": {
+        "name": "Kerewan Horticultural Site",
+        "type": "Farm",
+        "description": "Community-based horticultural center with irrigation from nearby tributaries.",
+        "contact": "+220 7729088",
+        "location": "Kerewan, North Bank Region",
+        "image": "assets/images/farm_placeholder.jpg"
+      },
+      "geometry": { "type": "Point", "coordinates": [-16.07, 13.49] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Soma Agricultural Training Center",
+        "type": "Farm & Training",
+        "description": "Agricultural research and training facility focusing on climate-smart practices.",
+        "contact": "+220 7712210",
+        "location": "Soma",
+        "image": "assets/images/soma_agric.jpeg"
+      },
       "geometry": { "type": "Point", "coordinates": [-15.53, 13.43] }
     },
+
+    
     {
       "type": "Feature",
-      "properties": { "name": "Kerewan", "type": "Farming Area" },
-      "geometry": { "type": "Point", "coordinates": [-16.09, 13.49] }
+      "properties": {
+        "name": "AHS Veterinary Clinic",
+        "type": "Veterinary",
+        "description": "Professional animal health and vaccination services for livestock and pets.",
+        "contact": "+220 7642323",
+        "location": "Bijilo",
+        "image": "assets/images/ahs_vet.jpeg"
+      },
+      "geometry": { "type": "Point", "coordinates": [-16.7353, 13.4311] }
     },
     {
       "type": "Feature",
-      "properties": { "name": "Central River Region Irrigation Zone", "type": "Irrigation Area" },
+      "properties": {
+        "name": "GambVet Veterinary Clinic",
+        "type": "Veterinary",
+        "description": "Offering modern treatment and diagnostics for pets and livestock.",
+        "contact": "+220 2592060",
+        "location": "Serrekunda",
+        "image": "assets/images/gambvet.jpeg"
+      },
+      "geometry": { "type": "Point", "coordinates": [-16.6789, 13.439] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "City Vets and Pharmacy",
+        "type": "Veterinary",
+        "description": "Comprehensive veterinary and pharmaceutical services for rural and urban clients.",
+        "contact": "+220 7360858",
+        "location": "Kololi",
+        "image": "assets/images/cityvets.jpeg"
+      },
+      "geometry": { "type": "Point", "coordinates": [-16.7075, 13.4525] }
+    },
+
+    
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Clay Soil Zone (Lower River Region)",
+        "type": "Soil",
+        "description": "High moisture retention, ideal for rice and vegetable cultivation.",
+        "color": "#a0522d"
+      },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[
-          [-14.95, 13.52],
-          [-14.8, 13.52],
-          [-14.8, 13.60],
-          [-14.95, 13.60],
-          [-14.95, 13.52]
+          [-16.75, 13.45],
+          [-16.68, 13.47],
+          [-16.65, 13.43],
+          [-16.7, 13.4],
+          [-16.75, 13.45]
         ]]
       }
     },
     {
       "type": "Feature",
-      "properties": { "name": "North Bank Floodplain", "type": "Floodplain" },
+      "properties": {
+        "name": "Clayey Soil (Sapu Region)",
+        "type": "Soil",
+        "description": "Supports intensive rice cultivation and seasonal irrigation.",
+        "color": "#b87333"
+      },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[
-          [-15.9, 13.50],
-          [-15.7, 13.50],
-          [-15.7, 13.58],
-          [-15.9, 13.58],
-          [-15.9, 13.50]
+          [-14.95, 13.53],
+          [-14.92, 13.54],
+          [-14.91, 13.52],
+          [-14.94, 13.51],
+          [-14.95, 13.53]
         ]]
       }
     },
     {
       "type": "Feature",
-      "properties": { "name": "Lower River Rice Fields", "type": "Rice Field" },
+      "properties": {
+        "name": "Loam Soil Zone (West Coast)",
+        "type": "Soil",
+        "description": "Rich and fertile soil suitable for mixed crops and tree farming.",
+        "color": "#4CAF50"
+      },
       "geometry": {
         "type": "Polygon",
         "coordinates": [[
-          [-15.4, 13.40],
-          [-15.2, 13.40],
-          [-15.2, 13.48],
-          [-15.4, 13.48],
-          [-15.4, 13.40]
+          [-16.72, 13.29],
+          [-16.63, 13.34],
+          [-16.57, 13.27],
+          [-16.65, 13.23],
+          [-16.72, 13.29]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sandy Soil Region (North Bank)",
+        "type": "Soil",
+        "description": "Well-drained soil, ideal for groundnuts and cassava cultivation.",
+        "color": "#f4d03f"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-16.25, 13.55],
+          [-16.15, 13.6],
+          [-16.1, 13.52],
+          [-16.2, 13.48],
+          [-16.25, 13.55]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mixed Soil Zone (Upper River)",
+        "type": "Soil",
+        "description": "Combination of sandy and loamy soils, suitable for groundnut and maize.",
+        "color": "#C2B280"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-14.3, 13.35],
+          [-14.2, 13.33],
+          [-14.18, 13.27],
+          [-14.25, 13.25],
+          [-14.3, 13.35]
+        ]]
+      }
+    },
+
+    
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "River Gambia Irrigation Belt",
+        "type": "Irrigation Zone",
+        "description": "Covers agricultural lands supported by River Gambia’s water system for seasonal farming.",
+        "color": "#00BFFF"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-16.7, 13.43],
+          [-16.3, 13.45],
+          [-15.9, 13.47],
+          [-15.5, 13.49],
+          [-15.1, 13.51],
+          [-14.8, 13.53],
+          [-14.4, 13.5],
+          [-14.1, 13.45],
+          [-14.1, 13.4],
+          [-14.4, 13.42],
+          [-14.8, 13.45],
+          [-15.2, 13.46],
+          [-15.6, 13.44],
+          [-16.1, 13.42],
+          [-16.5, 13.41],
+          [-16.7, 13.43]
         ]]
       }
     }
